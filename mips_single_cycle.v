@@ -4,7 +4,7 @@ module mips_single_cycle (
 );
     // Definição dos sinais internos
     wire [31:0] pc_next, pc_current, pc_plus_4, pc_branch, pc_jump;
-    wire [31:0] instruction, read_data_1, read_data_2, write_data, alu_result, mem_read_data;
+    wire [31:0] instruction, read_data_1, read_data_2, write_data, mem_read_data;
     wire [31:0] sign_extend, shift_left_2, alu_input_2;
     wire [3:0] alu_control;
     wire [1:0] alu_op;
@@ -15,6 +15,7 @@ module mips_single_cycle (
     reg [31:0] pc;
     reg [31:0] reg_file [31:0];
     reg [31:0] memory [1023:0];
+    reg [31:0] alu_result; // Corrigido: alu_result agora é um reg
 
     // PC Logic
     always @(posedge clk or posedge reset) begin
