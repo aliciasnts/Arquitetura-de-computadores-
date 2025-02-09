@@ -1,30 +1,28 @@
 module mips_single_cycle (
     input wire clk,
-    input wire reset
+    input wire reset,
+    output wire [31:0] alu_input_2
+
 );
-    wire [31:0] pc_next, pc_current, instruction, read_data_1, read_data_2, write_data;
-    wire [31:0] mem_read_data, sign_extend, alu_input_2, alu_result;
+    wire [31:0] pc_next, instruction, read_data_1, read_data_2, write_data;
+    wire [31:0] mem_read_data, sign_extend, alu_result;
     wire [3:0] alu_control;
     wire [1:0] alu_op;
     wire reg_dst, jump, branch, mem_read, mem_to_reg, mem_write, alu_src, reg_write, zero;
-    wire [1:0] pc_src;
+    wire [1:0] pc_src;   
     assign pc_src = (jump) ? 2'b10 : (branch & zero) ? 2'b01 : 2'b00;
+    assign alu_input_2 = (alu_src) ? sign_extend : read_data_2;
+
 
     // Program Counter
     reg [31:0] pc;
     always @(posedge clk or posedge reset) begin
-    if (reset) begin
-        pc <= 32'b0;  // Reinicia o PC para 0 no reset
-    end else begin
-        case (pc_src)
-            2'b00: pc <= pc + 4;  // Próxima instrução normal
-            2'b01: pc <= pc + 4 + (sign_ext_imm << 2);  // BEQ (desvio condicional)
-            2'b10: pc <= {pc[31:28], jump_address, 2'b00}; // JUMP
-            default: pc <= pc + 4; // Fallback
-        endcase
+        if (reset) begin
+            pc <= 32'b0;  // Reinicia o PC para 0 no reset
+        end else begin
+            pc <= pc_next;
+        end
     end
-end
-
 
     assign pc_next = (jump) ? {pc[31:28], instruction[25:0], 2'b00} :
                      (branch & zero) ? (pc + 4 + (sign_extend << 2)) : (pc + 4);
@@ -35,10 +33,8 @@ end
 
     // Register File
     reg [31:0] reg_file [31:0];
-
-    integer i; // Declaração da variável de loop
+    integer i; 
     always @(posedge clk or posedge reset) begin
-
         if (reset) begin
             for (i = 0; i < 32; i = i + 1)
                 reg_file[i] <= 0;
@@ -91,4 +87,5 @@ end
     assign mem_read_data = data_memory[alu_result >> 2];
 
     assign write_data = (mem_to_reg) ? mem_read_data : alu_result;
+    
 endmodule
