@@ -1,5 +1,0 @@
-00000000  // add $t0, $zero, $zero  (inicializa $t0 com 0)
-00000001  // addi $t1, $zero, 5     (carrega 5 em $t1)
-00000002  // addi $t2, $zero, 10    (carrega 10 em $t2)
-00000003  // add $t0, $t1, $t2      (soma $t1 e $t2, armazena em $t0)
-00000004  // sw $t0, 0($zero)       (armazena o resultado na memória)
