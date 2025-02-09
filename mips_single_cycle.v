@@ -90,3 +90,144 @@ module mips_single_cycle (
 
     assign write_data = (mem_to_reg) ? mem_read_data : alu_result;
 endmodule
+
+
+`timescale 1ns/1ps
+module mips(
+    input         clk,
+    input         reset
+);
+
+    // -----------------------------
+    // Registrador de PC
+    // -----------------------------
+    reg [31:0] pc;
+    wire [31:0] pc_plus_4, next_pc;
+
+    // -----------------------------
+    // Conexões internas
+    // -----------------------------
+    wire [31:0] instr;
+    // Campos da instrução
+    wire [5:0] opcode = instr[31:26];
+    wire [4:0] rs     = instr[25:21];
+    wire [4:0] rt     = instr[20:16];
+    wire [4:0] rd     = instr[15:11];
+    wire [15:0] imm   = instr[15:0];
+    wire [5:0] funct  = instr[5:0];
+
+    // Sinais de controle
+    wire RegDst, ALUSrc, MemtoReg, RegWrite;
+    wire MemRead, MemWrite, Branch, Jump;
+    wire [1:0] ALUOp;
+
+    // Sinais de conexão para a ALU e demais módulos
+    wire [31:0] read_data1, read_data2;
+    wire [31:0] sign_ext_imm;
+    wire [3:0]  alu_control;
+    wire [31:0] alu_result;
+    wire        alu_zero;
+    wire [31:0] mem_read_data;
+
+    // -----------------------------
+    // Bloco: Atualização do PC
+    // -----------------------------
+    assign pc_plus_4 = pc + 4;
+    
+    // Cálculo de endereço para branch (shift <<2)
+    wire [31:0] branch_addr = pc_plus_4 + (sign_ext_imm << 2);
+    // Endereço de salto: junta os 4 bits mais significativos do PC+4 com o campo jump (26 bits) + 2 bits 0
+    wire [31:0] jump_addr   = {pc_plus_4[31:28], instr[25:0], 2'b00};
+
+    // Seleção do próximo PC:
+    // Se for jump, usa jump_addr; se for branch e alu_zero = 1, usa branch_addr; senão, pc+4
+    assign next_pc = Jump ? jump_addr :
+                     (Branch & alu_zero) ? branch_addr :
+                     pc_plus_4;
+                     
+    always @(posedge clk or posedge reset) begin
+        if (reset)
+            pc <= 32'b0;
+        else
+            pc <= next_pc;
+    end
+
+    // -----------------------------
+    // Memória de Instruções (ROM)
+    // -----------------------------
+    imem imem_inst(
+        .addr(pc),
+        .instr(instr)
+    );
+    
+    // -----------------------------
+    // Unidade de Controle
+    // -----------------------------
+    control_unit ctrl(
+        .opcode(opcode),
+        .funct(funct),
+        .RegDst(RegDst),
+        .ALUSrc(ALUSrc),
+        .MemtoReg(MemtoReg),
+        .RegWrite(RegWrite),
+        .MemRead(MemRead),
+        .MemWrite(MemWrite),
+        .Branch(Branch),
+        .Jump(Jump),
+        .ALUOp(ALUOp)
+    );
+    
+    // -----------------------------
+    // Banco de Registradores
+    // -----------------------------
+    // Se RegDst = 1, o destino é rd (R‑type); senão, rt (lw)
+    reg_file rf(
+        .clk(clk),
+        .RegWrite(RegWrite),
+        .rs(rs),
+        .rt(rt),
+        .rd(RegDst ? rd : rt),
+        .writeData(MemtoReg ? mem_read_data : alu_result),
+        .readData1(read_data1),
+        .readData2(read_data2)
+    );
+    
+    // -----------------------------
+    // Extensor de Sinal
+    // -----------------------------
+    assign sign_ext_imm = {{16{imm[15]}}, imm};
+
+    // -----------------------------
+    // Unidade de Controle da ALU
+    // -----------------------------
+    alu_control_unit alu_ctrl(
+        .ALUOp(ALUOp),
+        .funct(funct),
+        .alu_control(alu_control)
+    );
+    
+    // -----------------------------
+    // ALU
+    // -----------------------------
+    // Se ALUSrc = 1, o segundo operando vem do extensor; senão, do banco de registradores
+    alu alu_inst(
+        .a(read_data1),
+        .b(ALUSrc ? sign_ext_imm : read_data2),
+        .alu_control(alu_control),
+        .result(alu_result),
+        .zero(alu_zero)
+    );
+    
+    // -----------------------------
+    // Memória de Dados
+    // -----------------------------
+    dmem dmem_inst(
+        .clk(clk),
+        .addr(alu_result),
+        .writeData(read_data2),
+        .MemWrite(MemWrite),
+        .MemRead(MemRead),
+        .readData(mem_read_data)
+    );
+
+endmodule
