@@ -26,10 +26,12 @@ module mips_single_cycle (
 
     // Register File
     reg [31:0] reg_file [31:0];
+    integer i; // Declaração da variável de loop fora do bloco always
     always @(posedge clk or posedge reset) begin
-        if (reset)
-            for (int i = 0; i < 32; i = i + 1)
+        if (reset) begin
+            for (i = 0; i < 32; i = i + 1)
                 reg_file[i] <= 0;
+        end
         else if (reg_write)
             reg_file[(reg_dst) ? instruction[15:11] : instruction[20:16]] <= write_data;
     end
