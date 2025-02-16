@@ -1,0 +1,31 @@
+VCD info: dumpfile waveform.vcd opened for output.
+================================================
+Iniciando simula├º├úo do MIPS single-cycle
+================================================
+[Tempo 10000] Reset desativado.
+[Tempo 10000] PC = 0x00000004 | Instru├º├úo = 0x200a000a | $t0 = 0xxxxxxxxx | $t1 = 0xxxxxxxxx | $t2 = 0xxxxxxxxx | $t3 = 0xxxxxxxxx | ALU Result = 0x0000000a | Zero = 0 | Mem Read Data = 0x00000000
+[Tempo 30000] PC = 0x00000008 | Instru├º├úo = 0x012a4020 | $t0 = 0xxxxxxxxx | $t1 = 0xxxxxxxxx | $t2 = 0xxxxxxxxx | $t3 = 0xxxxxxxxx | ALU Result = 0x0000000f | Zero = 0 | Mem Read Data = 0x00000000
+[Tempo 50000] PC = 0x0000000c | Instru├º├úo = 0x012a4022 | $t0 = 0xxxxxxxxx | $t1 = 0xxxxxxxxx | $t2 = 0xxxxxxxxx | $t3 = 0xxxxxxxxx | ALU Result = 0xfffffffb | Zero = 0 | Mem Read Data = 0x00000000
+[Tempo 70000] PC = 0x00000010 | Instru├º├úo = 0x012a4024 | $t0 = 0xxxxxxxxx | $t1 = 0xxxxxxxxx | $t2 = 0xxxxxxxxx | $t3 = 0xxxxxxxxx | ALU Result = 0x00000000 | Zero = 1 | Mem Read Data = 0x00000000
+[Tempo 90000] PC = 0x00000014 | Instru├º├úo = 0x012a4025 | $t0 = 0xxxxxxxxx | $t1 = 0xxxxxxxxx | $t2 = 0xxxxxxxxx | $t3 = 0xxxxxxxxx | ALU Result = 0x0000000f | Zero = 0 | Mem Read Data = 0x00000000
+[Tempo 110000] PC = 0x00000018 | Instru├º├úo = 0xac0a0000 | $t0 = 0xxxxxxxxx | $t1 = 0xxxxxxxxx | $t2 = 0xxxxxxxxx | $t3 = 0xxxxxxxxx | ALU Result = 0x00000000 | Zero = 1 | Mem Read Data = 0x00000000
+[Tempo 130000] PC = 0x0000001c | Instru├º├úo = 0x8c0b0000 | $t0 = 0xxxxxxxxx | $t1 = 0xxxxxxxxx | $t2 = 0xxxxxxxxx | $t3 = 0xxxxxxxxx | ALU Result = 0x00000000 | Zero = 1 | Mem Read Data = 0x0000000a
+[Tempo 150000] PC = 0x00000020 | Instru├º├úo = 0x11690002 | $t0 = 0xxxxxxxxx | $t1 = 0xxxxxxxxx | $t2 = 0xxxxxxxxx | $t3 = 0xxxxxxxxx | ALU Result = 0x00000005 | Zero = 0 | Mem Read Data = 0x00000000
+[Tempo 170000] PC = 0x00000024 | Instru├º├úo = 0x08000000 | $t0 = 0xxxxxxxxx | $t1 = 0xxxxxxxxx | $t2 = 0xxxxxxxxx | $t3 = 0xxxxxxxxx | ALU Result = 0x00000000 | Zero = 1 | Mem Read Data = 0x00000000
+[Tempo 190000] PC = 0x00000000 | Instru├º├úo = 0x20090005 | $t0 = 0xxxxxxxxx | $t1 = 0xxxxxxxxx | $t2 = 0xxxxxxxxx | $t3 = 0xxxxxxxxx | ALU Result = 0x00000005 | Zero = 0 | Mem Read Data = 0x00000000
+
+================================================
+Resultados finais:
+================================================
+PC final: 0x00000000
+Conte├║do de registradores:
+  - Registrador $t0 (reg[8]) = 0xxxxxxxxx
+  - Registrador $t1 (reg[9]) = 0xxxxxxxxx
+  - Registrador $t2 (reg[10]) = 0xxxxxxxxx
+  - Registrador $t3 (reg[11]) = 0xxxxxxxxx
+Resultado final da ALU: 0x00000005
+Flag Zero: 0
+Dado lido da mem├│ria: 0x00000000
+================================================
+tb_mips_single_cycle.v:92: $finish called at 210000 (1ps)
+[Tempo 210000] PC = 0x00000004 | Instru├º├úo = 0x200a000a | $t0 = 0xxxxxxxxx | $t1 = 0xxxxxxxxx | $t2 = 0xxxxxxxxx | $t3 = 0xxxxxxxxx | ALU Result = 0x0000000a | Zero = 0 | Mem Read Data = 0x00000000
