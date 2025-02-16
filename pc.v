@@ -1,11 +1,10 @@
-// Program Counter (PC)
 module pc(
-    input clk,                   // Sinal de clock
-    input reset,                 // Sinal de reset
-    input [31:0] pc_next,        // Próximo valor do PC
-    output reg [31:0] pc         // Valor atual do PC
+    input clk,
+    input reset,
+    input [31:0] pc_next,
+    output reg [31:0] pc
 );
-    always @(posedge clk, posedge reset) begin
+    always @(posedge clk or posedge reset) begin
         if (reset)
             pc <= 32'b0; // Reinicializa o PC se o reset estiver ativo
         else
