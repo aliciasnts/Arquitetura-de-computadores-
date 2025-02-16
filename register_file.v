@@ -1,6 +1,6 @@
 module register_file(
     input clk,
-    input reset, // Adicione o sinal de reset
+    input reset,
     input reg_write,
     input [4:0] read_reg1,
     input [4:0] read_reg2,
@@ -10,17 +10,20 @@ module register_file(
     output [31:0] read_data2
 );
     reg [31:0] reg_file [0:31];
-
-    // Inicialização dos registradores com reset
+    
     integer i;
-    always @(posedge clk or posedge reset) begin
+    initial begin
+        for(i = 0; i < 32; i = i + 1)
+            reg_file[i] = 32'b0;
+    end
+
+    always @(posedge clk) begin
         if (reset) begin
-            for (i = 0; i < 32; i = i + 1)
-                reg_file[i] <= 32'b0; // Inicializa todos os registradores com zero
+            for(i = 0; i < 32; i = i + 1)
+                reg_file[i] <= 32'b0;
         end
-        else if (reg_write && write_reg != 5'b0) begin
-            reg_file[write_reg] <= write_data; // Escreve no registrador
-        end
+        else if (reg_write && write_reg != 0)
+            reg_file[write_reg] <= write_data;
     end
 
     assign read_data1 = reg_file[read_reg1];

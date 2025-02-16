@@ -16,7 +16,6 @@ module tb_mips_single_cycle;
     mips_single_cycle uut (
         .clk(clk),
         .reset(reset),
-        .alu_input_2(),
         .pc(pc),
         .instruction(instruction),
         .reg_t0(reg_t0),
@@ -29,10 +28,15 @@ module tb_mips_single_cycle;
     );
 
     // Geração do clock
-    always #5 clk = ~clk;
+   always #10 clk = ~clk;
 
     // Inicialização e monitoramento
     initial begin
+
+          for(integer i = 0; i < 256; i = i + 1) begin
+        uut.IM.memory[i] = 32'b0;
+    end
+
         // Inicializa arquivo de onda (se necessário)
         $dumpfile("waveform.vcd");
         $dumpvars(0, tb_mips_single_cycle);

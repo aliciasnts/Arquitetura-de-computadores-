@@ -1,19 +1,20 @@
 module mips_single_cycle(
     input wire clk,
     input wire reset,
-    output wire [31:0] alu_input_2,
-    output wire [31:0] pc,           // PC atual
-    output wire [31:0] instruction,  // Instrução atual
-    output wire [31:0] reg_t0,       // Registrador $t0 (reg[8])
-    output wire [31:0] reg_t1,       // Registrador $t1 (reg[9])
-    output wire [31:0] reg_t2,       // Registrador $t2 (reg[10])
-    output wire [31:0] reg_t3,       // Registrador $t3 (reg[11])
-    output wire [31:0] mem_read_data, // Dado lido da memória
-    output wire [31:0] alu_result,   // Resultado da ALU
-    output wire zero                // Flag zero da ALU
+    output wire [31:0] pc,
+    output wire [31:0] instruction,
+    output wire [31:0] reg_t0,
+    output wire [31:0] reg_t1,
+    output wire [31:0] reg_t2,
+    output wire [31:0] reg_t3,
+    output wire [31:0] mem_read_data,
+    output wire [31:0] alu_result,
+    output wire zero
 );
+    // Internal wires
     wire [31:0] pc_next, read_data_1, read_data_2, write_data;
     wire [31:0] sign_extend;
+    wire [31:0] alu_input_2;  // Added this wire
     wire [3:0] alu_ctrl;
     wire [1:0] alu_op;
     wire reg_dst, jump, branch, mem_read, mem_to_reg, mem_write, alu_src, reg_write;
@@ -69,14 +70,17 @@ module mips_single_cycle(
         .read_data2(read_data_2)
     );
 
+
     // ALU
-    alu alu_inst (
+    assign alu_input_2 = (alu_src) ? sign_extend : read_data_2;
+
+alu alu_inst (
         .a(read_data_1),
         .b(alu_input_2),
         .alu_ctrl(alu_ctrl),
         .result(alu_result),
         .zero(zero)
-    );
+);
 
     // Unidade de Controle da ALU
     alu_control_unit alu_ctrl_inst (
