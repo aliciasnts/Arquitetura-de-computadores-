@@ -22,8 +22,8 @@ module mips_single_cycle (
     output wire [31:0] alu_input_2
 );
     wire [31:0] pc_next, instruction, read_data_1, read_data_2, write_data;
-    wire [31:0] pc; // Declaração PC (32 bits)
     wire [31:0] mem_read_data, sign_extend, alu_result;
+<<<<<<< HEAD
 >>>>>>> parent of 5ff6c89 (desisto)
 =======
     output wire [31:0] alu_input_2,
@@ -44,6 +44,9 @@ module mips_single_cycle (
 =======
     wire [31:0] pc_next, instruction, read_data_1, read_data_2, write_data;
     wire [31:0] mem_read_data, sign_extend, alu_result;
+    wire [3:0] alu_control;
+>>>>>>> parent of 3ffac98 (acho que fiz progresso)
+=======
     wire [3:0] alu_control;
 >>>>>>> parent of 3ffac98 (acho que fiz progresso)
     wire [1:0] alu_op;
@@ -85,6 +88,7 @@ module mips_single_cycle (
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 >>>>>>> parent of ff94c93 (voltei atrás do balde)
@@ -109,10 +113,30 @@ module mips_single_cycle (
     );
 
     // ALU
+=======
+    // Control Unit
+    control_unit CU (
+        .opcode(instruction[31:26]),
+        .reg_dst(reg_dst),
+        .jump(jump),
+        .branch(branch),
+        .mem_read(mem_read),
+        .mem_to_reg(mem_to_reg),
+        .mem_write(mem_write),
+        .alu_src(alu_src),
+        .reg_write(reg_write),
+        .alu_op(alu_op)
+    );
+
+    // ALU
+>>>>>>> parent of 3ffac98 (acho que fiz progresso)
     alu ALU (
         .input_1(read_data_1),
         .input_2(alu_input_2),
         .alu_control(alu_control),
+<<<<<<< HEAD
+>>>>>>> parent of 3ffac98 (acho que fiz progresso)
+=======
 >>>>>>> parent of 3ffac98 (acho que fiz progresso)
         .result(alu_result),
         .zero(zero)
