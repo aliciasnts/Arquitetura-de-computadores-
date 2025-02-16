@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 module instruction_memory(
     input [31:0] addr,           // Input address
     output reg [31:0] instruction // Output instruction
@@ -32,4 +33,12 @@ module instruction_memory(
         instruction = memory[addr[9:2]];
     end
 
+=======
+module instruction_memory (
+    input wire [31:0] pc,
+    output wire [31:0] instruction
+);
+    reg [31:0] memory [1023:0];
+    assign instruction = memory[pc >> 2];
+>>>>>>> parent of 3ffac98 (acho que fiz progresso)
 endmodule
