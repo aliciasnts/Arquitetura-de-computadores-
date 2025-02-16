@@ -5,17 +5,10 @@ module tb_mips_single_cycle;
     reg reset;
     integer i;
 
-    // Sinais de saída do módulo mips_single_cycle
-    wire [31:0] pc;
-    wire [31:0] instruction;
-    wire [31:0] reg_t0, reg_t1, reg_t2, reg_t3;
-    wire [31:0] mem_read_data;
-    wire [31:0] alu_result;
-    wire zero;
-
     // Instância do processador
     mips_single_cycle uut (
         .clk(clk),
+<<<<<<< HEAD
         .reset(reset),
         .pc(pc),
         .instruction(instruction),
@@ -26,13 +19,17 @@ module tb_mips_single_cycle;
         .mem_read_data(mem_read_data),
         .alu_result(alu_result),
         .zero(zero)
+=======
+        .reset(reset)
+>>>>>>> parent of 5ff6c89 (desisto)
     );
 
     // Geração do clock
    always #10 clk = ~clk;
 
-    // Inicialização e monitoramento
+    // Inicialização
     initial begin
+<<<<<<< HEAD
 
           for(integer i = 0; i < 256; i = i + 1) begin
         uut.IM.memory[i] = 32'b0;
@@ -165,5 +162,12 @@ module tb_mips_single_cycle;
         $display("Reg[11] ($t3) = %h", uut.reg_file[11]);
         $display("--------------------------------------------------");
 >>>>>>> parent of 3ffac98 (acho que fiz progresso)
+=======
+        clk = 0;
+        reset = 1;
+        #10 reset = 0; // Desativa o reset após 10 ns
+        #200; // Executa por tempo suficiente para verificar todas as instruções
+        $stop; // Finaliza a simulação
+>>>>>>> parent of 5ff6c89 (desisto)
     end
 endmodule

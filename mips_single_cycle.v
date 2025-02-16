@@ -1,6 +1,7 @@
 module mips_single_cycle (
     input wire clk,
     input wire reset,
+<<<<<<< HEAD
     output wire [31:0] pc,
     output wire [31:0] instruction,
     output wire [31:0] reg_t0,
@@ -16,6 +17,13 @@ module mips_single_cycle (
     wire [31:0] pc_next, read_data_1, read_data_2, write_data;
     wire [31:0] sign_extend;
     wire [31:0] alu_input_2;  // Added this wire
+=======
+    output wire [31:0] alu_input_2
+);
+    wire [31:0] pc_next, instruction, read_data_1, read_data_2, write_data;
+    wire [31:0] pc; // Declaração PC (32 bits)
+    wire [31:0] mem_read_data, sign_extend, alu_result;
+>>>>>>> parent of 5ff6c89 (desisto)
     wire [3:0] alu_ctrl;
 =======
     wire [31:0] pc_next, instruction, read_data_1, read_data_2, write_data;
@@ -23,16 +31,11 @@ module mips_single_cycle (
     wire [3:0] alu_control;
 >>>>>>> parent of 3ffac98 (acho que fiz progresso)
     wire [1:0] alu_op;
-    wire reg_dst, jump, branch, mem_read, mem_to_reg, mem_write, alu_src, reg_write;
+    wire reg_dst, jump, branch, mem_read, mem_to_reg, mem_write, alu_src, reg_write, zero;
+    wire [1:0] pc_src;
 
-    // Banco de registradores
-    reg [31:0] reg_file [0:31];
-
-    // Conecta os registradores às portas
-    assign reg_t0 = reg_file[8];
-    assign reg_t1 = reg_file[9];
-    assign reg_t2 = reg_file[10];
-    assign reg_t3 = reg_file[11];
+    assign pc_src = (jump) ? 2'b10 : (branch & zero) ? 2'b01 : 2'b00;
+    assign alu_input_2 = (alu_src) ? sign_extend : read_data_2;
 
     // Program Counter
     pc PC (
