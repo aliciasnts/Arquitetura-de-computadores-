@@ -2,6 +2,7 @@ module mips_single_cycle (
     input wire clk,
     input wire reset,
 <<<<<<< HEAD
+<<<<<<< HEAD
     output wire [31:0] pc,
     output wire [31:0] instruction,
     output wire [31:0] reg_t0,
@@ -24,6 +25,21 @@ module mips_single_cycle (
     wire [31:0] pc; // Declaração PC (32 bits)
     wire [31:0] mem_read_data, sign_extend, alu_result;
 >>>>>>> parent of 5ff6c89 (desisto)
+=======
+    output wire [31:0] alu_input_2,
+    output wire [31:0] pc,           // PC atual
+    output wire [31:0] instruction,  // Instrução atual
+    output wire [31:0] reg_t0,       // Registrador $t0 (reg[8])
+    output wire [31:0] reg_t1,       // Registrador $t1 (reg[9])
+    output wire [31:0] reg_t2,       // Registrador $t2 (reg[10])
+    output wire [31:0] reg_t3,       // Registrador $t3 (reg[11])
+    output wire [31:0] mem_read_data, // Dado lido da memória
+    output wire [31:0] alu_result,   // Resultado da ALU
+    output wire zero                // Flag zero da ALU
+);
+    wire [31:0] pc_next, read_data_1, read_data_2, write_data;
+    wire [31:0] sign_extend;
+>>>>>>> parent of ff94c93 (voltei atrás do balde)
     wire [3:0] alu_ctrl;
 =======
     wire [31:0] pc_next, instruction, read_data_1, read_data_2, write_data;
@@ -68,11 +84,12 @@ module mips_single_cycle (
     );
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> parent of ff94c93 (voltei atrás do balde)
     // ALU
-    assign alu_input_2 = (alu_src) ? sign_extend : read_data_2;
-
-alu alu_inst (
+    alu alu_inst (
         .a(read_data_1),
         .b(alu_input_2),
         .alu_ctrl(alu_ctrl),
@@ -99,7 +116,7 @@ alu alu_inst (
 >>>>>>> parent of 3ffac98 (acho que fiz progresso)
         .result(alu_result),
         .zero(zero)
-);
+    );
 
     // ALU Control
     alu_control_unit ALU_CTRL (

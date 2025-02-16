@@ -2,7 +2,7 @@
 <<<<<<< HEAD
 module register_file(
     input clk,
-    input reset,
+    input reset, // Adicione o sinal de reset
     input reg_write,
     input [4:0] read_reg1,
     input [4:0] read_reg2,
@@ -12,18 +12,18 @@ module register_file(
     output [31:0] read_data2
 );
     reg [31:0] reg_file [0:31];
-    
-    integer i;
-    initial begin
-        for(i = 0; i < 32; i = i + 1)
-            reg_file[i] = 32'b0;
-    end
 
-    always @(posedge clk) begin
+    // Inicialização dos registradores com reset
+    integer i;
+    always @(posedge clk or posedge reset) begin
         if (reset) begin
-            for(i = 0; i < 32; i = i + 1)
-                reg_file[i] <= 32'b0;
+            for (i = 0; i < 32; i = i + 1)
+                reg_file[i] <= 32'b0; // Inicializa todos os registradores com zero
         end
+        else if (reg_write && write_reg != 5'b0) begin
+            reg_file[write_reg] <= write_data; // Escreve no registrador
+        end
+<<<<<<< HEAD
         else if (reg_write && write_reg != 0)
 =======
 module register_file (
@@ -67,6 +67,8 @@ module register_file(
     initial begin
         for (i = 0; i < 32; i = i + 1) reg_file[i] = 0;
 >>>>>>> parent of 5ff6c89 (desisto)
+=======
+>>>>>>> parent of ff94c93 (voltei atrás do balde)
     end
 
     // Leitura dos registradores
