@@ -32,11 +32,14 @@ module tb_mips_single_cycle;
     initial begin
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
           for(integer i = 0; i < 256; i = i + 1) begin
         uut.IM.memory[i] = 32'b0;
     end
 
+=======
+>>>>>>> parent of ff94c93 (voltei atrás do balde)
 =======
 >>>>>>> parent of ff94c93 (voltei atrás do balde)
         // Inicializa arquivo de onda (se necessário)

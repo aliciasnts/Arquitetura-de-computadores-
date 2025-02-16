@@ -20,6 +20,7 @@ module register_file(
         if (reset) begin
             for (i = 0; i < 32; i = i + 1)
                 reg_file[i] <= 32'b0; // Inicializa todos os registradores com zero
+<<<<<<< HEAD
         end
         else if (reg_write && write_reg != 5'b0) begin
             reg_file[write_reg] <= write_data; // Escreve no registrador
@@ -84,6 +85,12 @@ module register_file(
         else if (reg_write)
             reg_file[write_reg] <= write_data;
 >>>>>>> parent of 3ffac98 (acho que fiz progresso)
+=======
+        end
+        else if (reg_write && write_reg != 5'b0) begin
+            reg_file[write_reg] <= write_data; // Escreve no registrador
+        end
+>>>>>>> parent of ff94c93 (voltei atrás do balde)
     end
 
     assign read_data1 = reg_file[read_reg1];
